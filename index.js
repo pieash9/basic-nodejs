@@ -1,13 +1,28 @@
-const fs = require("fs");
+//  dependencies
+const http = require("http");
 
-const ourReadStream = fs.createReadStream(`${__dirname}/bigdata.txt`);
-const ourWriteStream = fs.createWriteStream(`${__dirname}/output.txt`);
+// app object - module scafolding
+const app = {};
 
-// ourReadStream.on("data", (chunk) => {
-//   console.log(chunk);
-//   ourWriteStream.write(chunk);
-// });
+// configuration
+app.config = {
+  port: 3000,
+};
 
-// console.log("hello");
+// create server
+app.createServer = () => {
+  const server = http.createServer(app.handleReqRes);
 
-ourReadStream.pipe(ourWriteStream);
+  server.listen(app.config.port, () => {
+    console.log("listening to port " + app.config.port);
+  });
+};
+
+// handle request Response
+app.handleReqRes = (req, res) => {
+  // response handler
+  res.end("Hello Programmer!");
+};
+
+// start the server
+app.createServer();
