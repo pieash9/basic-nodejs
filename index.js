@@ -1,13 +1,38 @@
-const fs = require("fs");
+// Dependencies
+const mathLibrary = require("./lib/math");
+const quotesLibrary = require("./lib/quotes");
 
-const ourReadStream = fs.createReadStream(`${__dirname}/bigdata.txt`);
-const ourWriteStream = fs.createWriteStream(`${__dirname}/output.txt`);
+// App object - Module scaffolding
+const app = {};
 
-// ourReadStream.on("data", (chunk) => {
-//   console.log(chunk);
-//   ourWriteStream.write(chunk);
-// });
+// Configuration
+app.config = {
+  timeBetweenQuotes: 1000,
+};
 
-// console.log("hello");
+// Function that prints a random quote
+app.printAQuote = function printAQuote() {
+  // Get all the quotes
+  const allQuotes = quotesLibrary.allQuotes();
 
-ourReadStream.pipe(ourWriteStream);
+  // Get the length of the quotes
+  const numberOfQuotes = allQuotes.length;
+
+  // Pick a random number between 1 and the number of quotes
+  const randomNumber = mathLibrary.getRandomNumber(1, numberOfQuotes);
+
+  // Get the quote at that position in the array (minus one)
+  const selectedQuote = allQuotes[randomNumber - 1];
+
+  // Print the quote to the console
+  console.log(selectedQuote);
+};
+
+// Function that loops indefinitely, calling the printAQuote function as it goes
+app.indefiniteLoop = function indefiniteLoop() {
+  // Create the interval, using the config variable defined above
+  setInterval(app.printAQuote, app.config.timeBetweenQuotes);
+};
+
+// Invoke the loop
+app.indefiniteLoop();
