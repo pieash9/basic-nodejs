@@ -8,14 +8,21 @@ const lib = require("./lib/data");
 const app = {};
 
 // testing file system
-// lib.create(
-//   "test",
-//   "newFile",
-//   { name: "Bangladesh", language: "Bangla" },
-//   (err) => console.log({ err })
-// );
+lib.create(
+  "test",
+  "newFile",
+  { name: "Bangladesh", language: "Bangla" },
+  (err) => console.log({ err })
+);
 
-lib.read("test", "newFile", (err, data) => console.log({ data }));
+// lib.read("test", "newFile", (err, data) => console.log({ data }));
+
+// update
+lib.update("test", "newFile", { name: "England", language: "English" }, (err) =>
+  console.log({ err })
+);
+
+// lib.delete("test", "newFile", (err) => console.log({ err }));
 
 // configuration
 app.config = {
