@@ -1,4 +1,5 @@
 const data = require("../../lib/data");
+const { hash } = require("../../helpers/utilities");
 
 const handler = {};
 
@@ -9,7 +10,6 @@ handler.userHandler = (requestProperties, callback) => {
   } else {
     callback(405);
   }
-  callback(200, { message: "This is user handler route!" });
 };
 
 handler._users = {};
@@ -41,31 +41,44 @@ handler._users.post = (requestProperties, callback) => {
 
   const tosAgreement =
     typeof requestProperties.body.tosAgreement === "boolean" &&
-    requestProperties.body.tosAgreement.trim().length > 0
+    requestProperties.body.tosAgreement
       ? requestProperties.body.tosAgreement
       : false;
 
   if (firstName && lastName && phone && password && tosAgreement) {
-    // make sure thee  user doesn't already exist
-    data.read("users", phone, (err, user) => {
-      if (err) {
-        let userObject = {
+    // make sure that the user doesn't already exists
+    data.read("users", phone, (err1) => {
+      if (err1) {
+        const userObject = {
           firstName,
           lastName,
           phone,
+          password: hash(password),
+          tosAgreement,
         };
+        // store the user to db
+        data.create("users", phone, userObject, (err2) => {
+          if (!err2) {
+            callback(200, {
+              message: "User was created successfully!",
+            });
+          } else {
+            callback(500, { error: "Could not create user!" });
+          }
+        });
       } else {
         callback(500, {
-          error: "There is a error in server side!",
+          error: "There was a problem in server side!",
         });
       }
     });
   } else {
     callback(400, {
-      error: "You have a problem in your request!",
+      error: "You have a problem in your request",
     });
   }
 };
+
 handler._users.get = (requestProperties, callback) => {
   callback(200);
 };

@@ -1,10 +1,11 @@
+// dependencies
 const url = require("url");
 const { StringDecoder } = require("string_decoder");
 const routes = require("../routes");
 const { notFoundHandler } = require("../handlers/routHandlers/notFoundHandler");
-const { parseJSON } = require("../helpers/utilities");
+const { parseJSON } = require("./utilities");
 
-// module scaffolding
+// modue scaffolding
 const handler = {};
 
 handler.handleReqRes = (req, res) => {
@@ -27,7 +28,7 @@ handler.handleReqRes = (req, res) => {
   };
 
   const decoder = new StringDecoder("utf-8");
-  let realData = " ";
+  let realData = "";
 
   const chosenHandler = routes[trimmedPath]
     ? routes[trimmedPath]
@@ -53,9 +54,6 @@ handler.handleReqRes = (req, res) => {
       res.writeHead(statusCode);
       res.end(payloadString);
     });
-
-    // response handler
-    // res.end("Hello Programmer!");
   });
 };
 
