@@ -1,10 +1,11 @@
 GET http://localhost:3000/sample
 
-### user
-GET http://localhost:3000/user
+### get user
+GET http://localhost:3000/user?phone=01627001665
+token: 9jrolarlrap93fs2tvn2
 
 ### create user
-POST http://localhost:3000/user HTTP/1.1
+POST http://localhost:3000/user
 Content-Type: application/json
 
 {
@@ -14,3 +15,50 @@ Content-Type: application/json
   "password": "123456",
   "tosAgreement": true
 }
+
+### update user
+PUT http://localhost:3000/user
+Content-Type: application/json
+token: 9jrolarlrap93fs2tvn2
+
+{
+    "firstName": "Lemon",
+    "lastName": "Cush",
+    "phone": "01627001665",
+    "password": "123456",
+    "tosAgreement": true
+}
+
+### delete user
+DELETE http://localhost:3000/user?phone=01627001665
+token: 9jrolarlrap93fs2tvn2
+
+
+
+
+
+
+### Authentication
+
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+  "phone":"01627001665",
+  "password":"123456"
+}
+
+### get token
+GET http://localhost:3000/token?id=7s0zrdnoawrs3fp2ocx8
+
+### update token
+PUT http://localhost:3000/token
+Content-Type: application/json
+
+{
+  "id":"7s0zrdnoawrs3fp2ocx8",
+  "extend":true
+}
+
+### Delete token
+DELETE  http://localhost:3000/token?id=7s0zrdnoawrs3fp2ocx8
