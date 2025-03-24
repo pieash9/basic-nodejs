@@ -265,7 +265,6 @@ handler._check.put = (requestProperties, callback) => {
 };
 
 handler._check.delete = (requestProperties, callback) => {
-  // check the id number is valid
   const id =
     typeof requestProperties.queryStringObject.id === "string" &&
     requestProperties.queryStringObject.id.trim().length === 20
@@ -273,11 +272,11 @@ handler._check.delete = (requestProperties, callback) => {
       : false;
 
   if (id) {
-    data.read("checks", id, (err, checkData) => {
-      if (!err && checkData) {
-        // verify token
-        let token =
-          typeof requestProperties.headersObject.token == "string"
+    // lookup the check
+    data.read("checks", id, (err1, checkData) => {
+      if (!err1 && checkData) {
+        const token =
+          typeof requestProperties.headersObject.token === "string"
             ? requestProperties.headersObject.token
             : false;
 
@@ -286,74 +285,77 @@ handler._check.delete = (requestProperties, callback) => {
           parseJSON(checkData).userPhone,
           (tokenIsValid) => {
             if (tokenIsValid) {
-              data.delete("checks", id, (err1) => {
-                if (!err1) {
+              // delete the check data
+              data.delete("checks", id, (err2) => {
+                if (!err2) {
                   data.read(
                     "users",
                     parseJSON(checkData).userPhone,
-                    (err2, userData) => {
-                      let userObject = parseJSON(userData);
-                      if (!err2) {
-                        let userChecks =
+                    (err3, userData) => {
+                      const userObject = parseJSON(userData);
+                      if (!err3 && userData) {
+                        const userChecks =
                           typeof userObject.checks === "object" &&
                           userObject.checks instanceof Array
                             ? userObject.checks
                             : [];
 
-                        // removed the deleted user id from users list of checks
-                        let checkPosition = userChecks.indexOf(id);
+                        // remove the deleted check id from user's list of checks
+                        const checkPosition = userChecks.indexOf(id);
                         if (checkPosition > -1) {
                           userChecks.splice(checkPosition, 1);
-
-                          // save the new checks list
+                          // resave the user data
                           userObject.checks = userChecks;
                           data.update(
                             "users",
                             userObject.phone,
                             userObject,
-                            (err3) => {
-                              if (!err3) {
-                                callback(200, userObject);
+                            (err4) => {
+                              if (!err4) {
+                                callback(200);
                               } else {
-                                callback(400, {
-                                  err: "server err",
+                                callback(500, {
+                                  error: "There was a server side problem!",
                                 });
                               }
                             }
                           );
                         } else {
                           callback(500, {
-                            err: "The check id you are trying to delete is not found in user!",
+                            error:
+                              "The check id that you are trying to remove is not found in user!",
                           });
                         }
                       } else {
                         callback(500, {
-                          err: "server side error!",
+                          error: "There was a server side problem!",
                         });
                       }
                     }
                   );
-
-                  callback(200, {
-                    message: "Check was deleted successfully!",
-                  });
                 } else {
                   callback(500, {
-                    error: "There was a problem in server side!",
+                    error: "There was a server side problem!",
                   });
                 }
               });
             } else {
-              callback(403, { error: "Authentication failure!" });
+              callback(403, {
+                error: "Authentication failure!",
+              });
             }
           }
         );
       } else {
-        callback(404, { error: "check not found" });
+        callback(500, {
+          error: "You have a problem in your request",
+        });
       }
     });
   } else {
-    callback(404, { error: "check not found" });
+    callback(400, {
+      error: "You have a problem in your request",
+    });
   }
 };
 
