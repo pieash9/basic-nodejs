@@ -2,7 +2,7 @@ GET http://localhost:3000/sample
 
 ### get user
 GET http://localhost:3000/user?phone=01627001665
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 ### create user
 POST http://localhost:3000/user
@@ -19,7 +19,7 @@ Content-Type: application/json
 ### update user
 PUT http://localhost:3000/user
 Content-Type: application/json
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 {
     "firstName": "Lemon",
@@ -31,7 +31,7 @@ token: cxq4489eknvwtq2rucn7
 
 ### delete user
 DELETE http://localhost:3000/user?phone=01627001665
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 
 
@@ -50,19 +50,19 @@ Content-Type: application/json
 }
 
 ### get token
-GET http://localhost:3000/token?id=cxq4489eknvwtq2rucn7
+GET http://localhost:3000/token?id=g51b9nqv2q8by4cpkdyw
 
 ### update token
 PUT http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "id":"cxq4489eknvwtq2rucn7",
+  "id":"g51b9nqv2q8by4cpkdyw",
   "extend":true
 }
 
 ### Delete token
-DELETE  http://localhost:3000/token?id=cxq4489eknvwtq2rucn7
+DELETE  http://localhost:3000/token?id=g51b9nqv2q8by4cpkdyw
 
 
 
@@ -71,7 +71,7 @@ DELETE  http://localhost:3000/token?id=cxq4489eknvwtq2rucn7
 ### create checks
 POST http://localhost:3000/check
 Content-Type: application/json
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 {
   "protocol":"https",
@@ -83,12 +83,12 @@ token: cxq4489eknvwtq2rucn7
 
 ### get checks data
 GET http://localhost:3000/check
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 ### Update checks
 PUT http://localhost:3000/check
 Content-Type: application/json
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
 
 {
   "id":"f00596vavjtq7lcvrwmw",
@@ -102,4 +102,4 @@ token: cxq4489eknvwtq2rucn7
 ### Delete check
 DELETE  http://localhost:3000/check?id=melnkpajprwjjhhd8foo
 Content-Type: application/json
-token: cxq4489eknvwtq2rucn7
+token: g51b9nqv2q8by4cpkdyw
