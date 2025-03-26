@@ -2,14 +2,23 @@ const express = require("express");
 
 const app = express();
 
-app.use(express.raw());
+const router = express.Router({
+  caseSensitive: true,
+});
 
-app.get("/", (req, res) => {
+app.use(router);
+
+app.use(
+  express.static(__dirname + "/public", {
+    index: "home.html",
+  })
+);
+
+router.get("/About", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body.name);
+router.post("/", (req, res) => {
   res.send("Hello World from post request!");
 });
 
