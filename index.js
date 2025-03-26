@@ -2,15 +2,17 @@ const express = require("express");
 
 const app = express();
 
-app.use(express.raw());
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  // res.send("Hello World from post request!");
+  res.render("pages/about");
 });
 
-app.post("/", (req, res) => {
-  console.log(req.body.name);
-  res.send("Hello World from post request!");
+app.all("/", (req, res) => {
+  res.send({
+    err: "path not found!",
+  });
 });
 
 app.listen(3000, () => {
