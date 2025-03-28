@@ -1,25 +1,18 @@
 const express = require("express");
 
 const app = express();
+app.set("view engine", "ejs");
 
-const router = express.Router({
-  caseSensitive: true,
+app.use(express.json());
+
+app.get("/about", (req, res) => {
+  res.set("name", "PIeash ahmed");
+  console.log(res.get("name"));
+  res.end();
 });
 
-app.use(router);
-
-app.use(
-  express.static(__dirname + "/public", {
-    index: "home.html",
-  })
-);
-
-router.get("/About", (req, res) => {
-  res.send("Hello World!");
-});
-
-router.post("/", (req, res) => {
-  res.send("Hello World from post request!");
+app.get("/test", (req, res) => {
+  res.send("Redirect from about");
 });
 
 app.listen(3000, () => {
