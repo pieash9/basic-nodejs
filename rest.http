@@ -1,8 +1,8 @@
 ### get
-GET http://localhost:3000/about
+GET http://localhost:3000/user
 
 ### get
-GET http://localhost:3000/admin/dashboard
+GET http://localhost:3000/admin/login
 
 ### post
 POST http://localhost:3000/user
