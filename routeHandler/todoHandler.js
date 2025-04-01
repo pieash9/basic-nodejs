@@ -8,10 +8,40 @@ todoRouter.get("/", async (req, res) => {
     const result = await TODO.find({
       status: "active",
     }).select({
-      _id: 0,
       __v: 0,
       date: 0,
     });
+    res.status(200).json({ message: "Successful", result });
+  } catch (error) {
+    res.status(500).send("There is server side error!");
+  }
+});
+
+// get active todos
+todoRouter.get("/active", async (req, res) => {
+  try {
+    const todo = new TODO();
+    const result = await todo.findActive();
+    res.status(200).json({ message: "Successful", result });
+  } catch (error) {
+    res.status(500).send("There is server side error!");
+  }
+});
+
+// get js todos
+todoRouter.get("/js", async (req, res) => {
+  try {
+    const result = await TODO.findByJs();
+    res.status(200).json({ message: "Successful", result });
+  } catch (error) {
+    res.status(500).send("There is server side error!");
+  }
+});
+
+// get by language todos
+todoRouter.get("/language", async (req, res) => {
+  try {
+    const result = await TODO.find().byLanguage("2");
     res.status(200).json({ message: "Successful", result });
   } catch (error) {
     res.status(500).send("There is server side error!");
@@ -63,6 +93,7 @@ todoRouter.put("/:id", async (req, res) => {
       },
       {
         $set: {
+          ...req.body,
           status: "active",
         },
       },
