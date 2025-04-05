@@ -22,21 +22,6 @@ todoSchema.methods = {
     return model("Todo").find({ status: "active" });
   },
 };
-
-// static methods
-todoSchema.statics = {
-  findByJs: function () {
-    return this.find({ title: /js/i });
-  },
-};
-
-// query helpers
-todoSchema.query = {
-  byLanguage: function (language) {
-    return this.find({ title: new RegExp(language, "i") });
-  },
-};
-
 const TODO = model("Todo", todoSchema);
 
 export default TODO;

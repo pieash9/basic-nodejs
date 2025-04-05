@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import todoRouter from "./routeHandler/todoHandler.js";
+import userRouter from "./routeHandler/userHandler.js";
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ mongoose
 
 // routes
 app.use("/todo", todoRouter);
+app.use("/user", userRouter);
 
 const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
