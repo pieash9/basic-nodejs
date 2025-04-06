@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import todoRouter from "./routeHandler/todoHandler.js";
 import userRouter from "./routeHandler/userHandler.js";
+import "dotenv/config";
 
 const app = express();
 app.use(express.json());
@@ -22,7 +23,7 @@ const errorHandler = (err, req, res, next) => {
   if (res.headersSent) {
     return next(err);
   }
-  res.status(500).send({ error: err.message });
+  res.status(500).json({ error: err });
 };
 
 app.use(errorHandler);

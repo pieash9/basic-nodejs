@@ -1,9 +1,12 @@
 import express from "express";
 import TODO from "../schemas/todoSchema.js";
+import checkLogin from "../middlewares/checkLogin.js";
 
 const todoRouter = express.Router();
 
-todoRouter.get("/", async (req, res) => {
+todoRouter.get("/", checkLogin, async (req, res) => {
+  console.log(req.userId);
+  console.log(req.username);
   try {
     const result = await TODO.find({
       status: "active",
