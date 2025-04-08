@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 const userSchema = new Schema({
   name: {
@@ -17,6 +17,12 @@ const userSchema = new Schema({
     type: String,
     enum: ["active", "inactive"],
   },
+  todos: [
+    {
+      type: Types.ObjectId,
+      ref: "Todo",
+    },
+  ],
 });
 
 const USER = model("User", userSchema);

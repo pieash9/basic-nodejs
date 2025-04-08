@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 const todoSchema = new Schema({
   title: {
@@ -13,6 +13,10 @@ const todoSchema = new Schema({
   date: {
     type: Date,
     default: Date.now(),
+  },
+  user: {
+    type: Types.ObjectId,
+    ref: "User",
   },
 });
 

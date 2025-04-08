@@ -71,4 +71,17 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+userRouter.get("/all", async (req, res) => {
+  try {
+    const users = await USER.find().populate("todos");
+    res.status(200).json({
+      message: "Successful",
+      data: users,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("There is server side error!");
+  }
+});
+
 export default userRouter;

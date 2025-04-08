@@ -1,21 +1,21 @@
 import express from "express";
 import TODO from "../schemas/todoSchema.js";
 import checkLogin from "../middlewares/checkLogin.js";
+import USER from "../schemas/userSchema.js";
 
 const todoRouter = express.Router();
 
 todoRouter.get("/", checkLogin, async (req, res) => {
-  console.log(req.userId);
-  console.log(req.username);
   try {
-    const result = await TODO.find({
-      status: "active",
-    }).select({
-      __v: 0,
-      date: 0,
-    });
+    const result = await TODO.find()
+      .populate("user", "name username -_id")
+      .select({
+        __v: 0,
+        date: 0,
+      });
     res.status(200).json({ message: "Successful", result });
   } catch (error) {
+    console.log(error);
     res.status(500).send("There is server side error!");
   }
 });
@@ -62,11 +62,21 @@ todoRouter.get("/:id", async (req, res) => {
 });
 
 // POST todo
-todoRouter.post("/", async (req, res) => {
+todoRouter.post("/", checkLogin, async (req, res) => {
   try {
-    const newTodo = new TODO(req.body);
+    const newTodo = new TODO({ ...req.body, user: req.userId });
 
-    await newTodo.save();
+    const todo = await newTodo.save();
+    await USER.updateOne(
+      {
+        _id: req.userId,
+      },
+      {
+        $push: {
+          todos: todo._id,
+        },
+      }
+    );
     res.status(200).json({
       message: "Todo added successfully",
     });
