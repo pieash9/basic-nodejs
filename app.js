@@ -8,7 +8,7 @@ import {
   notFoundHandler,
 } from "./middlewares/common/errorHandler.js";
 import loginRouter from "./router/loginRouter.js";
-import userRouter from "./router/userRouter.js";
+import userRouter from "./router/usersRouter.js";
 import inboxRouter from "./router/inboxRouter.js";
 
 const __dirname = path.resolve();

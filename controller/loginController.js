@@ -1,7 +1,5 @@
 const getLogin = (req, res, next) => {
-  res.render("index", {
-    title: "Login - Chat application",
-  });
+  res.render("index");
 };
 
 export const loginController = { getLogin };
